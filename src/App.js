@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import Recipe from "./Components/Recipe";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
-import NavBar from "./Components/NavBar";
+
 
 const App = () => {
   const apiKey = "6d2ac43a24b3a3fb87c21d003c9eaaff%09";
@@ -15,7 +15,6 @@ const App = () => {
   return (
     <div>
       <Router>
-      <NavBar/>
         <LoadingBar height={3} color="#f11946" progress={progress} />
         <Switch>
           <Route exact path="/pizza">
