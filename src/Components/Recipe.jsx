@@ -1,24 +1,40 @@
 import React, { useEffect, useState } from "react";
 import RecipeItem from './RecipeItem'
 const Recipe = (props) => {
-  const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState();
+  // const [search, setSearch] = useState('pizza');
+  // const [url, setUrl] = useState(
+  //   `https://api.edamam.com/api/recipes/v2?type=public&q=$pizza&app_id=8e61d206&app_key=6d2ac43a24b3a3fb87c21d003c9eaaff%09`
+  // );
+
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
-
+  // const submit = () => {
+  //   console.log("submitted")
+  //   setUrl(
+  //     `https://api.edamam.com/api/recipes/v2?type=public&q=${setSearch}&app_id=8e61d206&app_key=6d2ac43a24b3a3fb87c21d003c9eaaff%09`
+  //   );
+  // };
   const updateRecipe = async () => {
-
-    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${props.category}&app_id=${props.apiId}&app_key=${props.apiKey}`; let data = await fetch(url);
+    const url =
+      `https://api.edamam.com/api/recipes/v2?type=public&q=pizza&app_id=8e61d206&app_key=6d2ac43a24b3a3fb87c21d003c9eaaff%09`
+    ;
+  
+    let data = await fetch(url);
     let parsedData = await data.json();
-    setArticles(parsedData.articles);
+    setArticles(parsedData.hits);
     console.log(parsedData)
+
   };
 
   useEffect(() => {
     document.title = `${capitalizeFirstLetter(props.category)} `;
     updateRecipe();
   }, []);
-
+  // const newData = (e) => {
+  //   setSearch(e.target.value);
+  // };
   return (
     <>
       <h1
@@ -27,6 +43,10 @@ const Recipe = (props) => {
       >
         Recipe - {capitalizeFirstLetter(props.category)}  </h1>
 
+      {/* <div className="up-code">
+        <input type="text" onChange={newData} />
+        <button type="Submit" onSubmit={submit}>Submit</button>
+      </div> */}
 
       <div className="container">
         <div className="row">
@@ -35,14 +55,13 @@ const Recipe = (props) => {
               // text, quantity, measure, source, foodCategory, url, imageUrl
               <div className="col-md-4" key={element.url}>
                 <RecipeItem
-                  text={element.ingredients.text ? element.ingredients.text : ""}
-                  quantity={element.ingredients.quantity ? element.ingredients.quantity : ""}
-                  measure={element.ingredients.measure}
-                  foodCategory={element.ingredients.foodCategory}
-                  url={element.ingredients.url}
-                  imageUrl={element.ingredients.image}
-                  source={element.ingredients.source}
+                  text={element.recipe.label}
+                  cal={element.recipe.calories}
+                  ingre={element.recipe.ingredients}
+                  source={element.recipe.dietLabels}
+                  imageUrl={element.recipe.image}
                 />
+
               </div>
             );
           })}

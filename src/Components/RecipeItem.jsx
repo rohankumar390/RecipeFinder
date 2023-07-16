@@ -1,7 +1,7 @@
 import React from "react";
 
 const RecipeItem = (props) => {
-  let { text, quantity, measure, source, foodCategory, url, imageUrl } = props;
+  let { text, cal, ingre, source, imageUrl } = props;
   return (
     <div className="my-3">
       <div className="card">
@@ -13,7 +13,7 @@ const RecipeItem = (props) => {
             right: "0",
           }}
         >
-          <span className="badge rounded-pill bg-danger"> {source} </span>
+          <span className="badge rounded-pill bg-danger"> {!source?source:"Balanced"} </span>
         </div>
         <img
           src={
@@ -26,21 +26,20 @@ const RecipeItem = (props) => {
         />
         <div className="card-body">
           <h5 className="card-title">{text} </h5>
-          <p className="card-text">{measure}</p>
+          <p className="card-text ">{cal}</p>
           <p className="card-text">
-            <small className="text-muted">
-              Category {foodCategory ? "Unknown" : foodCategory} quantity
-              {quantity ? "Unknown" : quantity}
-            </small>
+            {ingre&& ingre.map((ele) => (
+              <li>{ele.text}</li>
+            ))}
           </p>
-          <a
+          {/* <a
             rel="noreferrer"
             href={url}
             target="_blank"
             className="btn btn-sm btn-dark"
           >
             Read More
-          </a>
+          </a> */}
         </div>
       </div>
     </div>
