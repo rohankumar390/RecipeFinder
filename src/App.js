@@ -1,34 +1,25 @@
-import "./App.css";
+// import "./App.css";
 
 import React, { useState } from "react";
-// import NavBar from "./Components/NavBar";
 import Recipe from "./Components/Recipe";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import LoadingBar from "react-top-loading-bar";
-
-
 const App = () => {
   const apiKey = "6d2ac43a24b3a3fb87c21d003c9eaaff%09";
   const apiId = "8e61d206";
-  const [progress, setProgress] = useState(0);
   console.log(apiKey);
   return (
     <div>
       <Router>
-        <LoadingBar height={3} color="#f11946" progress={progress} />
         <Switch>
           <Route exact path="/pizza">
-            <Recipe
-              setProgress={setProgress}
+            <Recipe            
               apiKey={apiKey}
               apiId={apiId}
               category="pizza"
             />
           </Route>
-
           <Route exact path="/burger">
             <Recipe
-              setProgress={setProgress}
               apiKey={apiKey}
               apiId={apiId}
               category="burger"
@@ -37,7 +28,7 @@ const App = () => {
 
           <Route exact path="/bread">
             <Recipe
-              setProgress={setProgress}
+              
               apiKey={apiKey}
               apiId={apiId}
               category="bread"

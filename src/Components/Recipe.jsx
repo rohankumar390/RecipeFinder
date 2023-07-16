@@ -1,52 +1,23 @@
 import React, { useEffect, useState } from "react";
-
-import RecipeItem from "./RecipeItem";
-import Spinner from "./Spinner";
-import PropTypes from "prop-types";
-import InfiniteScroll from "react-infinite-scroll-component";
-import loading from './loading.gif'
-const News = (props) => {
+import RecipeItem from './RecipeItem'
+const Recipe = (props) => {
   const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [totalResults, setTotalResults] = useState(0);
-
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const updateNews = async () => {
-    // https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=API_KEY
-    props.setProgress(10);
-    // const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
-    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${props.category}&app_id=${props.apiId}&app_key=${props.apiKey}`;
-    setLoading(true);
-    let data = await fetch(url);
-    props.setProgress(30);
+  const updateRecipe = async () => {
+
+    const url = `https://api.edamam.com/api/recipes/v2?type=public&q=${props.category}&app_id=${props.apiId}&app_key=${props.apiKey}`; let data = await fetch(url);
     let parsedData = await data.json();
-    props.setProgress(70);
     setArticles(parsedData.articles);
-    setTotalResults(parsedData.totalResults);
-    setLoading(false);
-    props.setProgress(100);
+    console.log(parsedData)
   };
 
   useEffect(() => {
-    document.title = `${capitalizeFirstLetter(props.category)} - NewsMonkey`;
-    updateNews();
-    // eslint-disable-next-line
+    document.title = `${capitalizeFirstLetter(props.category)} `;
+    updateRecipe();
   }, []);
-
-  const fetchMoreData = async () => {
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country
-      }&category=${props.category}&apiKey=${props.apiKey}&page=${page + 1
-      }&pageSize=${props.pageSize}`;
-    setPage(page + 1);
-    let data = await fetch(url);
-    let parsedData = await data.json();
-    setArticles(articles.concat(parsedData.articles));
-    setTotalResults(parsedData.totalResults);
-  };
 
   return (
     <>
@@ -54,49 +25,31 @@ const News = (props) => {
         className="text-center"
         style={{ margin: "35px 0px", marginTop: "90px" }}
       >
-        NewsMonkey - Top {capitalizeFirstLetter(props.category)} Headlines
-      </h1>
-      {loading && <Spinner />}
-      <InfiniteScroll
-        dataLength={articles?.length}
-        next={fetchMoreData}
-        hasMore={articles?.length !== totalResults}
-        loader={<Spinner />}
-      >
-        <div className="container">
-          <div className="row">
-            {articles?.map((element) => {
-              return (
-                <div className="col-md-4" key={element.url}>
-                  <RecipeItem
-                    title={element.title ? element.title : ""}
-                    description={element.description ? element.description : ""}
-                    imageUrl={element.urlToImage}
-                    newsUrl={element.url}
-                    author={element.author}
-                    date={element.publishedAt}
-                    source={element.source.name}
-                  />
-                </div>
-              );
-            })}
-          </div>
+        Recipe - {capitalizeFirstLetter(props.category)}  </h1>
+
+
+      <div className="container">
+        <div className="row">
+          {articles?.map((element) => {
+            return (
+              // text, quantity, measure, source, foodCategory, url, imageUrl
+              <div className="col-md-4" key={element.url}>
+                <RecipeItem
+                  text={element.ingredients.text ? element.ingredients.text : ""}
+                  quantity={element.ingredients.quantity ? element.ingredients.quantity : ""}
+                  measure={element.ingredients.measure}
+                  foodCategory={element.ingredients.foodCategory}
+                  url={element.ingredients.url}
+                  imageUrl={element.ingredients.image}
+                  source={element.ingredients.source}
+                />
+              </div>
+            );
+          })}
         </div>
-      </InfiniteScroll>
+      </div>
     </>
   );
 };
 
-News.defaultProps = {
-  country: "in",
-  pageSize: 8,
-  category: "general",
-};
-
-News.propTypes = {
-  country: PropTypes.string,
-  pageSize: PropTypes.number,
-  category: PropTypes.string,
-};
-
-export default News;
+export default Recipe;

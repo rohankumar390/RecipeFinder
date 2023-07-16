@@ -1,6 +1,6 @@
 import React from "react";
 
-const NewsItem = (props) => {
+const RecipeItem = (props) => {
   let { text, quantity, measure, source, foodCategory, url, imageUrl } = props;
   return (
     <div className="my-3">
@@ -47,4 +47,4 @@ const NewsItem = (props) => {
   );
 };
 
-export default NewsItem;
+export default RecipeItem;
