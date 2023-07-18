@@ -2,6 +2,23 @@
   text-align: center;
 }
 
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.heading h1 {
+  font-weight: bolder;
+  color: blueviolet;
+  letter-spacing: 1px;
+  font: italic;
+}
+
+.heading h3 {
+  color: violet;
+  font-weight: lighter;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -17,7 +34,7 @@
 }
 li:nth-of-type(1n + 7) {
   display: none;
-  }
+}
 li {
   /* list-style: none; */
   font-family: "Courier New", Courier, monospace;
@@ -69,7 +86,7 @@ li {
   display: flex;
   justify-content: center;
 }
-.inp{
+.inp {
   display: flex;
   align-items: center;
   justify-content: center;

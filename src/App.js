@@ -8,10 +8,22 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
 
-  const [searching, setSearching] = useState("pizza");
+  const [searching, setSearching] = useState("");
   const [url, setUrl] = useState(
     `https://api.edamam.com/api/recipes/v2?type=public&q=${searching}&app_id=8e61d206&app_key=6d2ac43a24b3a3fb87c21d003c9eaaff%09`
   );
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      setProgress(10);
+      setUrl(
+        `https://api.edamam.com/api/recipes/v2?type=public&q=${searching}&app_id=8e61d206&app_key=6d2ac43a24b3a3fb87c21d003c9eaaff%09`
+      );
+      setProgress(30);
+      setProgress(70);
+      setProgress(100);
+    }
+  };
 
   const submit = (e) => {
     setProgress(10);
@@ -21,7 +33,6 @@ const App = () => {
     setProgress(30);
     setProgress(70);
     setProgress(100);
-
   };
   const newData = (e) => {
     setSearching(e.target.value);
@@ -34,7 +45,7 @@ const App = () => {
   const getReci = async () => {
     setProgress(100);
     setProgress(30);
-    
+
     setLoading(true);
     const res = await fetch(url);
     const data = await res.json();
@@ -47,6 +58,11 @@ const App = () => {
 
   return (
     <>
+      <div className="heading">
+        <h1> MY RECIPE </h1>
+        <h3>What Do Want To Eat?</h3>
+      </div>
+
       <LoadingBar height={3} color="#f11946" progress={progress} />
       {loading && <Spinner />}
 
@@ -55,6 +71,7 @@ const App = () => {
           type="text"
           style={{ width: "700px", height: "37px" }}
           onChange={newData}
+          onKeyDown={handleKeyDown}
         ></input>
         <button type="submit" className="btn btn-dark" onClick={submit}>
           Submit
