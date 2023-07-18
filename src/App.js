@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from "react";
 import RecipeItem from "./Components/RecipeItem";
-
+import Spinner from "./Components/Spinner";
+import LoadingBar from "react-top-loading-bar";
+import "./App.css";
 const App = () => {
   const [recipeees, setRecipeees] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+
   const [searching, setSearching] = useState("pizza");
   const [url, setUrl] = useState(
     `https://api.edamam.com/api/recipes/v2?type=public&q=${searching}&app_id=8e61d206&app_key=6d2ac43a24b3a3fb87c21d003c9eaaff%09`
   );
 
   const submit = (e) => {
+    setProgress(10);
     setUrl(
       `https://api.edamam.com/api/recipes/v2?type=public&q=${searching}&app_id=8e61d206&app_key=6d2ac43a24b3a3fb87c21d003c9eaaff%09`
     );
+    setProgress(30);
+    setProgress(70);
+    setProgress(100);
+
   };
   const newData = (e) => {
     setSearching(e.target.value);
@@ -22,19 +32,34 @@ const App = () => {
   }, [url]);
 
   const getReci = async () => {
+    setProgress(100);
+    setProgress(30);
+    
+    setLoading(true);
     const res = await fetch(url);
     const data = await res.json();
-
+    setLoading(false);
     setRecipeees(data.hits);
     console.log(recipeees);
+    setProgress(70);
+    setProgress(100);
   };
 
   return (
     <>
-      <input type="text" onChange={newData} value={searching}></input>
-      <button type="submit" onClick={submit}>
-        Submit
-      </button>
+      <LoadingBar height={3} color="#f11946" progress={progress} />
+      {loading && <Spinner />}
+
+      <div className="inp">
+        <input
+          type="text"
+          style={{ width: "700px", height: "37px" }}
+          onChange={newData}
+        ></input>
+        <button type="submit" className="btn btn-dark" onClick={submit}>
+          Submit
+        </button>
+      </div>
 
       {recipeees.map((r) => (
         <RecipeItem
