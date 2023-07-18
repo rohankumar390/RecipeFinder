@@ -7,6 +7,7 @@ const App = () => {
   const [recipeees, setRecipeees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [d, setd] = useState("");
 
   const [searching, setSearching] = useState("");
   const [url, setUrl] = useState(
@@ -22,6 +23,7 @@ const App = () => {
       setProgress(30);
       setProgress(70);
       setProgress(100);
+      setd(searching);
     }
   };
 
@@ -33,6 +35,7 @@ const App = () => {
     setProgress(30);
     setProgress(70);
     setProgress(100);
+    setd(searching);
   };
   const newData = (e) => {
     setSearching(e.target.value);
@@ -59,7 +62,7 @@ const App = () => {
   return (
     <>
       <div className="heading">
-        <h1> MY RECIPE </h1>
+        <h1>My Recipe Finder - {d}</h1>
         <h3>What Do Want To Eat?</h3>
       </div>
 

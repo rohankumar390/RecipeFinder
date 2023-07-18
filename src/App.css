@@ -36,7 +36,6 @@ li:nth-of-type(1n + 7) {
   display: none;
 }
 li {
-  /* list-style: none; */
   font-family: "Courier New", Courier, monospace;
   list-style-type: circle;
 }
