@@ -4,7 +4,6 @@ const RecipeItem = (props) => {
   return (
 
     <>
-    
       <div className="my-3 box">
         <div className="card-main">
           <div
